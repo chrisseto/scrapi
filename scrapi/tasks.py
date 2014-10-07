@@ -23,7 +23,7 @@ timestamp = lambda: datetime.utcnow().isoformat().decode('utf-8')
 
 @app.task
 def run_consumer(consumer_name, days_back=1):
-    logger.info('Running consumer "{}"'.format(consumer_name))
+    logger.info('Runing consumer "{}"'.format(consumer_name))
     # Form and start a celery chain
     chain = (consume.si(consumer_name, timestamp(), days_back=days_back)
              | begin_normalization.s(consumer_name))
@@ -91,7 +91,6 @@ def normalize(raw_doc, consumer_name):
 
     normalized['timestamps'] = raw_doc['timestamps']
     normalized['timestamps']['normalizeFinished'] = timestamp()
-
     return normalized
 
 
