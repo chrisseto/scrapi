@@ -25,23 +25,32 @@ def already_processed(raw_doc):
 def detect_collisions(hashlist, is_resource=False):
     if is_resource:
         _filter = {
-            'terms': {
-                'uuid': hashlist
-            }
+            'and': [
+                {
+                    'terms': {
+                        'uids': hashlist
+                    }
+                },
+                {
+                    'term': {
+                        'isResource': True
+                    }
+                }
+            ]
         }
     else:
         _filter = {
             'and': [
                 {
                     'missing': {
-                        'field': 'pid',
+                        'field': 'isResource',
                         'existence': True,
                         'null_value': True
                     }
                 },
                 {
                     'terms': {
-                        'uuid': hashlist
+                        'uids': hashlist
                     }
                 }
             ]
@@ -49,7 +58,7 @@ def detect_collisions(hashlist, is_resource=False):
     found = _search(_filter)
 
     if found:
-        return found['attached']['nid']
+        return found
 
     return None
 
@@ -64,11 +73,11 @@ def generate_hash_list(normalized, hashes):
 
 
 def generate_resource_hash_list(normalized):
-    return generate_hash_list(normalized.attributes, RESOURCE_HASH_FUNCTIONS)
+    return generate_hash_list(normalized, RESOURCE_HASH_FUNCTIONS)
 
 
 def generate_report_hash_list(normalized):
-    return generate_hash_list(normalized.attributes, REPORT_HASH_FUNCTIONS)
+    return generate_hash_list(normalized, REPORT_HASH_FUNCTIONS)
 
 
 def _search(_filter):

@@ -110,23 +110,23 @@ def worker():
 
 
 @task
-def consumer(consumer_name, async=False):
+def consumer(consumer_name, async=False, days=1):
     settings.CELERY_ALWAYS_EAGER = not async
     from scrapi.tasks import run_consumer
 
     if not settings.MANIFESTS.get(consumer_name):
         print 'No such consumers {}'.format(consumer_name)
 
-    run_consumer.delay(consumer_name)
+    run_consumer.delay(consumer_name, days_back=days)
 
 
 @task
-def consumers(async=False):
+def consumers(async=False, days=1):
     settings.CELERY_ALWAYS_EAGER = not async
     from scrapi.tasks import run_consumer
 
     for consumer_name in settings.MANIFESTS.keys():
-        run_consumer.delay(consumer_name)
+        run_consumer.delay(consumer_name, days_back=days)
 
 
 @task

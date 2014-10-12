@@ -10,10 +10,9 @@ import os
 import json
 import logging
 
-from fluent import handler
-
 from celery.schedules import crontab
-from celery.signals import after_setup_logger
+
+from fluent import sender
 
 from raven import Client
 from raven.contrib.celery import register_signal
@@ -26,10 +25,8 @@ logging.getLogger('requests.packages.urllib3.connectionpool').setLevel(logging.W
 logging.basicConfig(level=logging.INFO)
 
 
-@after_setup_logger.connect
-def config_logging(logger, loglevel, logfile, format, colorize, **kwargs):
-    if FLUENTD_ARGS:
-        logger.addHandler(handler.FluentHandler(*FLUENTD_ARGS))
+if USE_FLUENTD:
+    sender.setup(*FLUENTD_ARGS)
 
 
 MANIFEST_DIR = os.path.join(os.path.dirname(__file__), 'consumerManifests')
@@ -82,21 +79,30 @@ OSF_PROMOTE = OSF_METADATA + '{}/promote/'
 
 MANIFESTS = load_manifests()
 
-CELERYBEAT_SCHEDULE = create_schedule()
+CELERY_IMPORTS = ('scrapi.tasks',)
 
-CELERY_ALWAYS_EAGER = False
 
 CELERY_TASK_SERIALIZER = 'pickle'
 CELERY_RESULT_SERIALIZER = 'pickle'
 CELERY_ACCEPT_CONTENT = ['pickle']
-CELERY_ENABLE_UTC = True
-CELERY_TIMEZONE = 'UTC'
 
-CELERY_IMPORTS = ('scrapi.tasks',)
+CELERY_ALWAYS_EAGER = False
+
+CELERY_ENABLE_UTC = True
+
+CELERY_RESULT_BACKEND = 'amqp'
+
+# Celery Beat Stuff
+CELERYBEAT_SCHEDULE = create_schedule()
 
 CELERYBEAT_SCHEDULE['check_archive'] = {
     'task': 'scrapi.tasks.check_archive',
     'schedule': crontab(day_of_month='1', hour='23', minute='59'),
+}
+
+CELERYBEAT_SCHEDULE['update pubsubhubbub'] = {
+    'task': 'scrapi.tasks.update_pubsubhubbub',
+    'schedule': crontab(minute='*/5')
 }
 
 CELERYBEAT_SCHEDULE['tar archive'] = {
