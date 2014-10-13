@@ -34,18 +34,53 @@ def query_osf(query):
 
 def tutorial():
     return {
-        'title': 'string representing title of the resource',
-        'contributors': 'a list of dictionaries containing prefix, middle, family, suffix, and ORCID of contributors.',
-        'id': 'a dictionary of unique IDs given to the resource based on the particular publication we’re accessing. Should include an entry for a URL that links right to the original resource, a DOI, and a service specific ID',
-        'url': 'A url pointing to the resource\' real location',
-        'doi': 'The digital object identifier of the resource, if it has one',
-        'serviceID': 'A service specific identifier for the resource',
-        'description': 'an abstract or general description of the resource',
-        'tags': 'a list of tags or keywords identified in the resource itself, normalized to be all lower case',
-        'source': 'string identifying where the resource came from',
-        'timestamp': 'string indicating when the resource was accessed by scrAPI using the format YYYY-MM-DD h : m : s in iso format',
-        'dateCreated': 'string indicating when the resource was first created or published using the format YYYY-MM-DD in iso format',
-        'dateUpdated': 'string indicating when the resource was last updated in the home repository using the format YYYY-MM-DD in iso format',
+        'arguments': {
+            'q': {
+                'Description': 'The query parameter. Syntax specified by the Lucene query syntax',
+                'More info': 'http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax#HAND',
+                'Examples' : ['open science AND source:PloS', 'open science NOT source:PLoS', 'title:open science AND (source:PLoS OR source:Scitech) NOT title:closed']
+            },
+            'start_date': {
+                'Description': 'The beginning of a date range, formatted according to ISO 8601 (YYYY-MM-DD)',
+                'More info': 'http://www.iso.org/iso/iso8601',
+                'Examples': ['2014-08-31', '1999-01-17'],
+            },
+            'end_date': {
+                'Description': 'The end of a date range, formatted according to ISO 8601 (YYYY-MM-DD)',
+                'More info': 'http://www.iso.org/iso/iso8601',
+                'Examples': ['2014-08-31', '1999-01-17'],
+            },
+            'sort_field': {
+                'Description': 'A field on which to sort the results of a query.',
+                'Examples': ['dateCreated', 'dateUpdated', 'consumeStarted'],
+            },
+            'sort_type': {
+                'Description': 'Determines how a sort is ordered. Can be either "asc" (ascending) or "desc" (descending)',
+                'Examples': ['asc', 'desc'],
+            },
+            'from': {
+                'Description': 'For pagination, this is the index to start results.',
+                'Examples': ['1', '10', '12', '141'],
+            },
+            'size': {
+                'Description': 'The number of results that will be displayed at once',
+                'Examples': ['0', '1', '10', '12', '25', '625'],
+            },
+        },
+        'fields': {
+            'title': 'string representing title of the resource',
+            'contributors': 'a list of dictionaries containing prefix, middle, family, suffix, and ORCID of contributors.',
+            'id': 'a dictionary of unique IDs given to the resource based on the particular publication we’re accessing. Should include an entry for a URL that links right to the original resource, a DOI, and a service specific ID',
+            'url': 'A url pointing to the resource\' real location',
+            'doi': 'The digital object identifier of the resource, if it has one',
+            'serviceID': 'A service specific identifier for the resource',
+            'description': 'an abstract or general description of the resource',
+            'tags': 'a list of tags or keywords identified in the resource itself, normalized to be all lower case',
+            'source': 'string identifying where the resource came from',
+            'timestamp': 'string indicating when the resource was accessed by scrAPI using the format YYYY-MM-DD h : m : s in iso format',
+            'dateCreated': 'string indicating when the resource was first created or published using the format YYYY-MM-DD in iso format',
+            'dateUpdated': 'string indicating when the resource was last updated in the home repository using the format YYYY-MM-DD in iso format'
+        },
     }
 
 
