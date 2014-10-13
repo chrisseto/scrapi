@@ -68,19 +68,24 @@ def tutorial():
             },
         },
         'fields': {
-            'title': 'string representing title of the resource',
-            'contributors': 'a list of dictionaries containing prefix, middle, family, suffix, and ORCID of contributors.',
-            'id': 'a dictionary of unique IDs given to the resource based on the particular publication we’re accessing. Should include an entry for a URL that links right to the original resource, a DOI, and a service specific ID',
-            'url': 'A url pointing to the resource\' real location',
-            'doi': 'The digital object identifier of the resource, if it has one',
-            'serviceID': 'A service specific identifier for the resource',
-            'description': 'an abstract or general description of the resource',
-            'tags': 'a list of tags or keywords identified in the resource itself, normalized to be all lower case',
-            'source': 'string identifying where the resource came from',
-            'timestamp': 'string indicating when the resource was accessed by scrAPI using the format YYYY-MM-DD h : m : s in iso format',
-            'dateCreated': 'string indicating when the resource was first created or published using the format YYYY-MM-DD in iso format',
-            'dateUpdated': 'string indicating when the resource was last updated in the home repository using the format YYYY-MM-DD in iso format'
-        },
+            "given": "a string indicating the given name or initial of a contributor",
+            "middle": "a string indicating the middle name or initial of a contributor",
+            "family": "a string indicating the family name (surname) of a contributor",
+            "prefix": "a string indicating a contributor's prefix (e.g. 'Dr.')",
+            "suffix": "a string indicating a contributor's suffix (e.g. 'Jr.')",
+            "email": "a string indicating the email address of a contributor",
+            "dateCreated": "string indicating when the resource was first created or published using the format YYYY-MM-DD in iso format",
+            "dateUpdated": "string indicating when the resource was last updated in the home repository using the format YYYY-MM-DD in iso format",
+            "description": "an abstract or general description of the resource",
+            "doi": "The digital object identifier of the resource, if it has one",
+            "id": "a dictionary of unique IDs given to the resource based on the particular publication we're accessing; should include an entry for a URL that links to the original resource, a DOI, and a service specific ID",
+            "serviceID": "a service-specific identifier for the resource",
+            "source": "a string identifying the provider of the resource; this is a system ID, not the provider's full name (e.g. 'uceschol', not 'University of California eScholarship')",
+            "tags": "a list of tags or keywords identified in the resource itself, normalized to be all lowercase",
+            "timestamp": "string indicating when the resource was accessed by scrAPI using the format YYYY-MM-DD h : m : s in iso format",
+            "title": "string representing title of the resource",
+            "url": "a URL pointing to the resource's original location"
+          },
     }
 
 

@@ -1,9 +1,5 @@
 ;(function (global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['knockout', 'jquery', 'knockoutpunches'], factory);
-    } else {
         global.ShareSearch  = factory(ko, jQuery);
-    }
 }(this, function(ko, $) {
     // Enable knockout punches
     ko.punches.enableAll();
